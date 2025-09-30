@@ -2,11 +2,14 @@ package wallet.digital.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import wallet.digital.entity.Account;
 import wallet.digital.entity.User;
+
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
-    Optional<User> findById(Long id);
+public interface AccountRepository extends JpaRepository<Account, Integer> {
+
+    Optional<Account> findByUsername_Username(String username);
+
 }

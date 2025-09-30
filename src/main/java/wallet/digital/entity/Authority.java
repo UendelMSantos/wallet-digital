@@ -1,15 +1,10 @@
 package wallet.digital.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+
 
 @Entity
 @Table(name = "authorities")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Authority {
 
     @Id
@@ -21,4 +16,36 @@ public class Authority {
 
     @Column(nullable = false)
     private String authority;
+
+    public Authority() {}
+
+    public Authority(Long id, String username, String authority) {
+        this.id = id;
+        this.username = username;
+        this.authority = authority;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
+    }
 }

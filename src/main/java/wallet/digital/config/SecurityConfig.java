@@ -104,7 +104,7 @@ public class SecurityConfig {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/error", "/admin/create-user").permitAll()
+                        .requestMatchers("/login", "/error", "/admin/create-user", "/transaction/**", "/account/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())

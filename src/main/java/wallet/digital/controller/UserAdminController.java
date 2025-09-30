@@ -1,63 +1,29 @@
 package wallet.digital.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import wallet.digital.entity.Authority;
-import wallet.digital.entity.User;
-import wallet.digital.repository.AuthorityRepository;
-import wallet.digital.repository.UserRepository;
+import wallet.digital.DTOs.UserDTO;
+import wallet.digital.service.UserService;
 
-import java.util.HashSet;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/admin")
 public class UserAdminController {
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    private final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    UserAdminController(
+            UserService userService
+    ) {
+        this.userService = userService;
+    }
 
     @PostMapping("/create-user")
-    public Map<String, Object> createUser(@RequestBody Map<String, Object> request) {
-        try {
-            String username = (String) request.get("username");
-            String plainPassword = String.valueOf(request.get("password"));
-
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(passwordEncoder.encode(plainPassword));
-            user.setEnabled(true);
-
-            User savedUser = userRepository.save(user);
-
-            Authority authority = new Authority();
-            authority.setUsername(username);
-            authority.setAuthority("ROLE_ADMIN");
-
-            authorityRepository.save(authority);
-
-
-            return Map.of(
-                    "success", true,
-                    "message", "Usuário criado com sucesso!",
-                    "userId", savedUser.getId(),
-                    "username", username
-            );
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Map.of(
-                    "success", false,
-                    "error", e.getMessage(),
-                    "stackTrace", e.getStackTrace()
-            );
-        }
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO response = userService.createUser(userDTO);
+        return ResponseEntity.ok(response);
     }
+
+
 }
