@@ -10,6 +10,9 @@ import wallet.digital.entity.Transaction;
 import wallet.digital.repository.AccountRepository;
 import wallet.digital.repository.TransactionRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,24 +72,26 @@ public class TransactionService {
     }
 
 
-    public List<ResponseTransactionsDTO> getAllTransactionsByUsername(String Username){
+    public List<ResponseTransactionsDTO> getAllTransactionsByUsername(String username,
+                                                                      LocalDate startDate,
+                                                                      LocalDate endDate) {
 
-        List<Transaction> transactions = transactionRepository.findAllTransactionsByUsername(Username);
+        LocalDateTime start = (startDate != null) ? startDate.atStartOfDay() : null;
+        LocalDateTime end = (endDate != null) ? endDate.atTime(LocalTime.MAX) : null;
 
-        List<ResponseTransactionsDTO> responseTransactions = new ArrayList<>();
+        List<Transaction> transactions = transactionRepository
+                .findAllTransactionsByUsernameAndDateRange(username, start, end);
 
-        for(Transaction transaction : transactions){
+        return transactions.stream().map(transaction -> {
             ResponseTransactionsDTO dto = new ResponseTransactionsDTO();
-
             dto.setCreatedAt(transaction.getCreatedAt());
             dto.setSenderName(transaction.getSenderName());
             dto.setReceiverName(transaction.getReceiverName());
             dto.setValue(transaction.getValue());
             dto.setSenderUsername(transaction.getSenderUsername());
             dto.setReceiverUsername(transaction.getReceiverUsername());
-
-            responseTransactions.add(dto);
-        }
-        return responseTransactions;
+            return dto;
+        }).toList();
     }
+
 }

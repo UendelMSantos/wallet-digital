@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import wallet.digital.entity.Account;
 import wallet.digital.repository.AccountRepository;
 
-import javax.security.auth.login.AccountNotFoundException;
 
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/public/account")
 public class AccountController {
 
     private  final AccountRepository accountRepository;
