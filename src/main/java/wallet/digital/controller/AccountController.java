@@ -11,7 +11,7 @@ import wallet.digital.repository.AccountRepository;
 
 
 @RestController
-@RequestMapping("/public/account")
+@RequestMapping("/api/account")
 public class AccountController {
 
     private  final AccountRepository accountRepository;
