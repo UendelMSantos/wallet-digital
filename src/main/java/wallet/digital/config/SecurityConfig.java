@@ -117,7 +117,7 @@ public class SecurityConfig {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/error", "/admin/create-user", "/public/**").permitAll()
+                        .requestMatchers("/login", "/error", "/admin/create-user").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
@@ -170,7 +170,7 @@ public class SecurityConfig {
                 .scope("read")
                 .scope("write")
                 .clientSettings(ClientSettings.builder()
-                        .requireAuthorizationConsent(true)
+                        .requireAuthorizationConsent(false)
                         .requireProofKey(true)
                         .build())
                 .tokenSettings(TokenSettings.builder()

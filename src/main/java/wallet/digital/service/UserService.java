@@ -8,6 +8,7 @@ import wallet.digital.DTOs.UserDTO;
 import wallet.digital.entity.Account;
 import wallet.digital.entity.Authority;
 import wallet.digital.entity.User;
+import wallet.digital.exception.UsernameAlreadyExistsException;
 import wallet.digital.repository.AccountRepository;
 import wallet.digital.repository.AuthorityRepository;
 import wallet.digital.repository.UserRepository;
@@ -57,6 +58,9 @@ public class UserService {
 
 
     public UserDTO createUser(UserDTO userDTO) {
+        if (userRepository.findByUsername(userDTO.getUsername()).isPresent()) {
+            throw new UsernameAlreadyExistsException("O username '" + userDTO.getUsername() + "' já está em uso.");
+        }
         User user = new User();
 
         user.setUsername(userDTO.getUsername());
