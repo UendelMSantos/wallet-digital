@@ -1,22 +1,19 @@
 package wallet.digital.service;
 
 import org.springframework.stereotype.Service;
-import wallet.digital.DTOs.AccountDTO;
 import wallet.digital.DTOs.ResponseTransactionsDTO;
 import wallet.digital.DTOs.TransactionDTO;
 import wallet.digital.DTOs.UserDTO;
 import wallet.digital.entity.Account;
 import wallet.digital.entity.Transaction;
+import wallet.digital.exception.InsufficientBalanceException;
 import wallet.digital.repository.AccountRepository;
 import wallet.digital.repository.TransactionRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
-
-
 
 
 @Service
@@ -50,9 +47,10 @@ public class TransactionService {
                         "Não há conta disponivel para o User: " + transactionDTO.getReceiverUsername()
                 ));
 
-        if(transactionDTO.getValue() > senderAccount.getBalance()){
-           new RuntimeException("Transferência impossibilitada no momento");
+        if (transactionDTO.getValue() > senderAccount.getBalance()) {
+            throw new InsufficientBalanceException("Transferência impossibilitada: saldo insuficiente");
         }
+
 
         senderAccount.setBalance(senderAccount.getBalance() - transactionDTO.getValue());
         accountRepository.save(senderAccount);
