@@ -1,0 +1,20 @@
+# .dockerignore
+
+# Diretório de build do Maven
+target/
+
+# Arquivos de IDE
+.idea/
+.vscode/
+*.iml
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
