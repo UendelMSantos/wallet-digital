@@ -163,8 +163,8 @@ public class SecurityConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:5173/callback")
-                .postLogoutRedirectUri("http://localhost:5173/login")
+                .redirectUri("https://digital-frontend-nu.vercel.app/callback")
+                .postLogoutRedirectUri("https://digital-frontend-nu.vercel.app/login")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .scope("read")
@@ -254,7 +254,7 @@ public class SecurityConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:8080")
+                .issuer("https://wallet-digital.onrender.com")
                 .build();
     }
 }
